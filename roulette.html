@@ -8,26 +8,68 @@
 
 
 <body>
-    <div id="main-table-div">
-        <table id="the-main-table">
-            <tr>
-                <td style="background-color: black; background-image: url(./Images/Jaden.jpg)">
-                    <div id="jaden" class="bet" onclick="bet"></div>
+    <h1 id="taking-bets"> The Wheel of Blame Betting </h1>
+    <div id="bettor-table-div">
+        <table id="bettor-table">
+            <tr class="bettor-table-tr" >
+                <td class="bettor-table-td"><label id="label" for="selection">Bettor</label></td>
+                <td class="bettor-table-td">
+                    <select id="selection" name="selection">
+                        <option value="will">Will</option>
+                        <option value="benson">Benson</option>
+                        <option value="jaden">Jaden</option>
+                        <option value="clem">Clem</option>
+                        <option value="jordan">Jordan</option>
+                        <option value="alif">Alif</option>
+                        <option value="jesse">Jesse</option>
+                        <option value="farooq">Farooq</option>
+                        <option value="unknown">Unknown</option>
+                    </select>
                 </td>
-                <td style="background-color: darkred; background-image: url(./Images/Will.jpg)"><div class="bet"></div></td>
-                <td style="background-color: black; background-image: url(./Images/no-bet.jpeg)"><div class="bet"></div></td>
-            </tr>
-            <tr>
-                <td style="background-color: darkred; background-image: url(./Images/Benson.jpg)"><div class="bet"></div></td>
-                <td style="background-color: black; background-image: url(./Images/Farooq.png)"><div class="bet"></div></td>
-                <td style="background-color: darkred; background-image: url(./Images/Alif.jpg)"><div class="bet"></div></td>
-            </tr>
-            <tr>
-                <td style="background-color: black; background-image: url(./Images/Clem.jpg)"><div class="bet"></div></td>
-                <td style="background-color: darkred; background-image: url(./Images/Jordan.jpg)"><div class="bet"></div></td>
-                <td style="background-color: black; background-image: url(./Images/Jesse.jpg)"><div class="bet"></div></td>
             </tr>
         </table>
+    </div>
+    
+    <div id="main-table-div">
+        <table id="the-main-table">
+            <tr class="main-table-tr">
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Farooq.png)">
+                    <div id="farooq" class="bet" onclick="betted('farooq')" />
+                </td>
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Will.jpg)">
+                    <div id="will" class="bet" onclick="betted('will')"></div>
+                </td>
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/no-bet.jpeg)">
+                    <div id="no-bet" class="bet" onclick="betted('no-bet')" />
+                </td>
+            </tr>
+            <tr class="main-table-tr">
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Benson.jpg)">
+                    <div id="benson" class="bet" onclick="betted('benson')" />
+                </td>
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Jaden.jpg)">
+                    <div id="jaden" class="bet" onclick="betted('jaden')" />
+                </td>
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Alif.jpg)">
+                    <div id="alif" class="bet" onclick="betted('alif')" />
+                </td>
+            </tr>
+            <tr class="main-table-tr">
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Clem.jpg)">
+                    <div id="clem" class="bet" onclick="betted('clem')" />
+                </td>
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Jordan.jpg)">
+                    <div id="jordan" class="bet" onclick="betted('jordan')" />
+                </td>
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Jesse.jpg)">
+                    <div id="jesse" class="bet" onclick="betted('jesse')" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="submit-div" onclick="submitBet()">
+        <button id="submit-button" type="button">Bet</button>
     </div>
 
 
