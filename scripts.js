@@ -15,3 +15,10 @@ function submitBet(){
     theBettor = document.getElementById("selection").value;
     console.log(theBettor + " bet on " + theBet);
 }
+
+function selectVictim(){
+    let password = prompt("Password")
+    let victim = prompt("victim")
+
+    
+}

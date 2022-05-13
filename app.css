@@ -109,4 +109,11 @@ select{
     font-size: 3vh;
     font-family: 'Brush Script MT', cursive;
     border-radius: 10%;
+    width: 100%;
+}
+#victim-div{
+    position: absolute;
+    width: 10vw;
+    left: 45vw;
+    top: 100vh;
 }
