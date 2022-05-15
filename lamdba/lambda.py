@@ -1,72 +1,75 @@
 import boto3
 import json
 
-client = boto3.client('secretsmanager')
+# Globally used variables
 office_roulette = 'arn:aws:secretsmanager:us-east-1:692775622467:secret:office-roulette-mTGzMC'
-office_roulette_bets = "arn:aws:secretsmanager:us-east-1:692775622467:secret:office-roulette-bets-PsG6od"
+table = boto3.resource('dynamodb').Table("roulette-scores")
 
 
 def match_password(entered):
-    password = client.get_secret_value(SecretId=office_roulette)
+    """ This function authenticates the admin before the victim can be picked """
+
+    client = boto3.client('secretsmanager')
+    response = client.get_secret_value(SecretId=office_roulette)
+    password = json.loads(response['SecretString'])['password']
 
     if entered == password:
+        print("Access Granted")
         return True
     else:
+        print("Access Denied")
         return False
 
 
 def store_bet(bettor, bet):
-    secret = client.get_secret_value(SecretId=office_roulette_bets)
-    secret_dict = json.loads(secret['SecretString'])
-    secret_dict[bettor] = bet
-
-    response = client.update_secret(
-        SecretId=office_roulette_bets,
-        SecretString=json.dumps(secret_dict)
+    """ This function stores the players' updated bets in AWS DynamoDB """
+    response = table.update_item(
+        Key={'name': bettor},
+        AttributeUpdates={"bet": {"Value": bet}}
     )
 
 
 def pick_victim(victim):
-    bets = client.get_secret_value(SecretId=office_roulette_bets)
-    bets_dict = json.loads(bets['SecretString'])
+    """
+    After the admin enters the victim, this function compares the victim with the bets and increments
+    the scores by one and updates them in the database. Then it calls the clear_votes function
+    """
+    response = table.scan()
+    data = response['Items']
 
-    winners_list = []
+    for entry in data:
+        if entry['bet'] == victim:
+            response = table.update_item(
+                Key={'name': entry['name']},
+                AttributeUpdates={"score": {"Value": entry['score'] + 1}}
+            )
 
-    for bettor in bets_dict:
-        if bets_dict[bettor] == victim:
-            winners_list.append(bettor)
-
-    return winners_list
-
-
-def update_scores(winners):
-    scores = client.get_secret_value(SecretId=office_roulette)
-    scores_dict = json.loads(scores['SecretString'])
-
-    for winner in winners:
-        scores_dict[winner] += 1
-
-    response = client.update_secret(
-        SecretId=office_roulette,
-        SecretString=json.dumps(scores_dict)
-    )
-
-    clear_votes()
+    clear_votes(data)
 
 
-def clear_votes():
-    response = client.update_secret(
-        SecretId=office_roulette_bets,
-        SecretString='{"jaden":"no-bet","will":"no-bet","benson":"no-bet","alif":"no-bet","jordan":"no-bet",'
-                     '"clem":"no-bet","jesse":"no-bet"}'
-    )
+def clear_votes(data):
+    """
+    This function moves all the current bets to `past-bets` column so users can see what they bet on.
+    And then it updates all the bets with `no-bets` placeholders until users bet again
+    """
+    for entry in data:
+        response = table.update_item(
+            Key={'name': entry['name']},
+            AttributeUpdates={
+               "past-bet": {"Value": entry['bet']},
+               "bet": {"Value": "no-bet"}
+            }
+        )
 
 
 def lambda_handler(action, bettor, bet):
+    """
+    This function handles which functions AWS Lambda will run based on the parameters of the request
+    """
     if action == "bets":
         store_bet(bettor, bet)
     elif action == "scores":
-        winners = pick_victim(bettor)
-        update_scores(winners)
+        if match_password(bet):
+            pick_victim(bettor)
 
     
