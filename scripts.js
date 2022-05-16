@@ -1,7 +1,7 @@
 // Default values for a bet
 var theBet = "no-bet";
 var theBettor = "unknown";
-var lambdaUrl = "https://a4j2yx62yf.execute-api.us-east-1.amazonaws.com/default/office-roulette";
+var apiGateway = "https://d5n3ltvz28.execute-api.us-east-1.amazonaws.com/Prod";
 
 function betted(bettedOn){
     theBet = bettedOn
@@ -15,14 +15,28 @@ function betted(bettedOn){
 function submitBet(){
     theBettor = document.getElementById("selection").value;
     console.log(theBettor + " bet on " + theBet);
+    
+    // forming the request path
+    var fullApiPath = apiGateway+"/bet?action=bets&bettor="+theBettor+"&bet="+theBet;
+    console.log(fullApiPath);
 
+    // sending the request
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.open( "PUT", fullApiPath);
     xmlHttp.send( null );
     return xmlHttp.responseText;
 }
 
 function selectVictim(){
-    let password = prompt("Password")
-    let victim = prompt("victim")
+    let password = prompt("Password");
+    let victim = prompt("victim");
+
+    var fullApiPath = apiGateway+"/score?action=scores&bettor="+victim+"&bet="+password;
+    console.log(fullApiPath);
+
+    // sending the request
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "PUT", fullApiPath);
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
 }

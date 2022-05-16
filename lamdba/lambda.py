@@ -62,14 +62,31 @@ def clear_votes(data):
         )
 
 
-def lambda_handler(action, bettor, bet):
+def lambda_handler(event, context):
     """
     This function handles which functions AWS Lambda will run based on the parameters of the request
     """
+    action = event["queryStringParameters"]["action"]
+    bettor = event["queryStringParameters"]["bettor"]
+    bet = event["queryStringParameters"]["bet"]
+
+    responseSent = {}
+    responseSent['statusCode'] = 200
+    responseSent['headers'] = {}
+    responseSent['headers']['Content-Type'] = "application/json"
+
     if action == "bets":
         store_bet(bettor, bet)
+        responseSent['body'] = f"{bettor} bet on {bet}"
+        return responseSent
+
     elif action == "scores":
         if match_password(bet):
             pick_victim(bettor)
+            responseSent['body'] = "Scores Updated"
+        else:
+            responseSent['body'] = "Wrong Password!"
+
+        return responseSent
 
     
