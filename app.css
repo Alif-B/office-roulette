@@ -22,7 +22,7 @@ body{
     height: 100%;
 }
 .bettor-table-tr{
-    width: 20vw;
+    width: 40vw;
     color: red;
     font-family: 'Brush Script MT', cursive;
     font-size: 200%;
@@ -30,7 +30,7 @@ body{
 
 }
 .bettor-table-td{
-    width: 40vw;
+    width: 60vw;
     border-top-left-radius: 15%;
     border-top-right-radius: 15%;
     border-bottom-left-radius: 15%;
@@ -116,4 +116,8 @@ select{
     width: 10vw;
     left: 45vw;
     top: 100vh;
+}
+#scoreboard{
+    position: absolute;
+    top: 110vh;
 }
