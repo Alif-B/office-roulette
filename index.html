@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<head>
+    <title> Blaming Bet </title>
+    <link rel="stylesheet" href="app.css">
+    <link rel="icon" type="image/x-icon" href="/Images/roulette.png">
+    <script src="./scripts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+
+<body>
+    <h1 id="taking-bets"> The Wheel of Blame Betting </h1>
+    <div id="bettor-table-div">
+        <table id="bettor-table">
+            <tr class="bettor-table-tr" >
+                <td class="bettor-table-td"><label id="label" for="selection">Bettor</label></td>
+                <td class="bettor-table-td">
+                    <select id="selection" name="selection">
+                        <option value="will">Will</option>
+                        <option value="benson">Benson</option>
+                        <option value="jaden">Jaden</option>
+                        <option value="clem">Clem</option>
+                        <option value="jordan">Jordan</option>
+                        <option value="alif">Alif</option>
+                        <option value="jesse">Jesse</option>
+                        <option value="farooq">Farooq</option>
+                    </select>
+                </td>
+                <td class="bettor-table-td"><label id="label2" for="amount"></label></td>
+                <td class="bettor-table-td">
+                    <select id="betAmount" name="amount">
+                        <option value="1">1 blamebuck</option>
+                        <option value="5">5 blamebucks</option>
+                        <option value="10">10 blamebucks</option>
+                        <option value="25">25 blamebucks</option>
+                        <option value="0">0 blamebuck</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <div id="main-table-div">
+        <table id="the-main-table">
+            <tr class="main-table-tr">
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Farooq.png)">
+                    <div id="farooq" class="bet" onclick="betted('farooq')" />
+                </td>
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Will.jpg)">
+                    <div id="will" class="bet" onclick="betted('will')"></div>
+                </td>
+                <td class="main-table-td" style="background-color: black;">
+                    <div id="no-bet" class="bet" onclick="betted('no-bet')" />
+                </td>
+            </tr>
+            <tr class="main-table-tr">
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Benson.jpg)">
+                    <div id="benson" class="bet" onclick="betted('benson')" />
+                </td>
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Jaden.jpg)">
+                    <div id="jaden" class="bet" onclick="betted('jaden')" />
+                </td>
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Alif.jpg)">
+                    <div id="alif" class="bet" onclick="betted('alif')" />
+                </td>
+            </tr>
+            <tr class="main-table-tr">
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Clem.jpg)">
+                    <div id="clem" class="bet" onclick="betted('clem')" />
+                </td>
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Jordan.jpg)">
+                    <div id="jordan" class="bet" onclick="betted('jordan')" />
+                </td>
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Jesse.jpg)">
+                    <div id="jesse" class="bet" onclick="betted('jesse')" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="submit-div" onclick="submitBet()">
+        <button id="submit-button" type="button">Bet</button>
+    </div>
+    <div id="victim-div" onclick="selectVictim()">
+        <button id="submit-button" type="button">Victim</button>
+    </div>
+
+    <div id="scoreboard"></div>
+
+</body>
