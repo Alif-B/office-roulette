@@ -24,7 +24,7 @@ def validate_bet(bettor, bet):
     """
     table_bettors = table.scan()['Items']
     bettor_name = [bettor['name'] for bettor in table_bettors]
-    bet_amounts = [1, 5, 10, 25]
+    bet_amounts = [0, 1, 5, 10, 25]
 
     print(bettor, bet)
     if bettor in bettor_name and bet[0] in bettor_name and int(bet[1]) in bet_amounts:
@@ -70,7 +70,7 @@ def pick_victim(victim):
         if entry['bet'] == victim:
             response = table.update_item(
                 Key={'name': entry['name']},
-                AttributeUpdates={"score": {"Value": entry['score'] + entry['bet-amount']}}
+                AttributeUpdates={"score": {"Value": entry['score'] + (7*entry['bet-amount'])}}
             )
         else:
             response = table.update_item(
