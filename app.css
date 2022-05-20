@@ -41,6 +41,7 @@ select{
     margin: 8px 0;
     display: inline-block;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 #main-table-div{
@@ -79,6 +80,7 @@ select{
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 .bet:hover{
     animation: betting 0.5s forwards;
@@ -90,12 +92,18 @@ select{
 #the-main-table, .main-table-tr, .main-table-td{
     border: 5px solid white;
 }
-#submit-div{
+#submit-div, #score-button-div, #victim-div{
     position: absolute;
     text-align: center;
     width: 10vw;
     left: 45vw;
     top: 90vh;
+}
+#score-button-div{
+    left: 25vw;
+}
+#victim-div{
+    left: 65vw;
 }
 #submit-button {
     background-color: black; /* Green */
@@ -110,14 +118,31 @@ select{
     font-family: 'Brush Script MT', cursive;
     border-radius: 10%;
     width: 100%;
-}
-#victim-div{
-    position: absolute;
-    width: 10vw;
-    left: 45vw;
-    top: 100vh;
+    cursor: pointer;
 }
 #scoreboard{
     position: absolute;
-    top: 110vh;
+    top: 100vh;
+    width: 98vw;
+    height: auto;
+}
+#scoreboard-table{
+    position: absolute;
+    width: 40vw;
+    height: 35vh;
+    border: 5px solid white;
+    color: red;
+    left: 29vw;
+    background-color: black;
+}
+.scoreboard-cells{
+    border: 2px solid white;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+#footer{
+    position: absolute;
+    height: 5vh;
+    width: 5vw;
+    top: 35vh;
 }

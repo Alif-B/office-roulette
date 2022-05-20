@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title> Blaming Bet </title>
+    <title> La Casino de Alif </title>
     <link rel="stylesheet" href="app.css">
     <link rel="icon" type="image/x-icon" href="/Images/roulette.png">
     <script src="./scripts.js"></script>
@@ -34,7 +34,7 @@
                         <option value="5">5 blamebucks</option>
                         <option value="10">10 blamebucks</option>
                         <option value="25">25 blamebucks</option>
-                        <option value="0">0 blamebuck</option>
+                        <option value="0">Nothing</option>
                     </select>
                 </td>
             </tr>
@@ -47,11 +47,11 @@
                 <td class="main-table-td" style="background-color: black; background-image: url(./Images/Farooq.png)">
                     <div id="farooq" class="bet" onclick="betted('farooq')" />
                 </td>
-                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/Will.jpg)">
-                    <div id="will" class="bet" onclick="betted('will')"></div>
+                <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/esg.png)">
+                    <!-- <div id="no-bet" class="bet" onclick="betted('no-bet')" /> -->
                 </td>
-                <td class="main-table-td" style="background-color: black;">
-                    <div id="no-bet" class="bet" onclick="betted('no-bet')" />
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/Will.jpg)">
+                    <div id="will" class="bet" onclick="betted('will')"></div>
                 </td>
             </tr>
             <tr class="main-table-tr">
@@ -79,11 +79,14 @@
         </table>
     </div>
 
-    <div id="submit-div" onclick="submitBet()">
+    <div id="submit-div" onclick="submitBet();">
         <button id="submit-button" type="button">Bet</button>
     </div>
-    <div id="victim-div" onclick="selectVictim()">
+    <div id="victim-div" onclick="selectVictim();">
         <button id="submit-button" type="button">Victim</button>
+    </div>
+    <div id="score-button-div" onclick="scoreboard();">
+        <button id="submit-button" type="button">Score</button>
     </div>
 
     <div id="scoreboard"></div>

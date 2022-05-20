@@ -1,6 +1,6 @@
 // Default values for a bet
 var theBet = "no-bet";
-var apiGateway = "https://d5n3ltvz28.execute-api.us-east-1.amazonaws.com/Prod";
+var apiGateway = "https://d5n3ltvz28.execute-api.us-east-1.amazonaws.com/Prod/bet?";
 
 function betted(bettedOn){
     theBet = bettedOn
@@ -14,26 +14,28 @@ function betted(bettedOn){
 function submitBet(){
     theBettor = document.getElementById("selection").value;
     betAmount = parseInt(document.getElementById("betAmount").value);
-    window.alert(theBettor + " bet " + betAmount + " blamebucks on " + theBet);
-    fullBet = theBet+"amount"+betAmount;
+    if(theBet != "no-bet"){
+        window.alert(theBettor.charAt(0).toUpperCase() + theBettor.slice(1) + "! You are betting " + betAmount + " blamebucks on " + theBet.charAt(0).toUpperCase() + theBet.slice(1));
+        fullBet = theBet+"amount"+betAmount;
+        // forming the request path
+        var fullApiPath = apiGateway+"action=bets&bettor="+theBettor+"&bet="+fullBet;
     
-    // forming the request path
-    var fullApiPath = apiGateway+"/bet?action=bets&bettor="+theBettor+"&bet="+fullBet;
-    console.log(fullApiPath);
-
-    // sending the request
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "PUT", fullApiPath);
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
+        // sending the request
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "PUT", fullApiPath);
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    else{
+        window.alert("Pick A Victim!");
+    }
 }
 
 function selectVictim(){
     let password = prompt("Password");
     let victim = prompt("victim");
 
-    var fullApiPath = apiGateway+"/score?action=scores&bettor="+victim+"&bet="+password;
-    console.log(fullApiPath);
+    var fullApiPath = apiGateway+"action=scores&bettor="+victim+"&bet="+password;
 
     // sending the request
     var xmlHttp = new XMLHttpRequest();
@@ -44,22 +46,31 @@ function selectVictim(){
 
 
 function scoreboard(){
-    var fullApiPath = apiGateway+"/scoreboard?action=scoreboard&bettor=na&bet=na";
-    console.log(fullApiPath);
-
-
+    var fullApiPath = apiGateway+"action=scoreboard&bettor=na&bet=na";
+    
     // sending the request
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", fullApiPath);
-    xmlHttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xmlHttp.setRequestHeader('Access-Control-Allow-Origin', '*');
-    xmlHttp.send( null );
-    xmlHttp.onload = ()=>{
-        console.log(xmlHttp);
+    xmlHttp.onload = function () {
         if(xmlHttp.status == 200) {
-            console.log(JSON.parse(xmlHttp.response))
-        }
-    }
-}
+            // Checking the returned values
+            rows = JSON.parse(xmlHttp.response);
 
-//scoreboard();
+            // Dynamically making the scoreboard table
+            var table = "<table id='scoreboard-table'>";
+            table += "<tr><th>Name</th><th>Current Bet</th><th>Bet Amount</th><th>Holdings</th><th>Past Bet</th></tr>"
+            for(i = 0; i < 7; i++) {
+                table += "<tr class='scoreboard-rows'>";
+                table += "<td class='scoreboard-cells'>" + rows[i]["name"].charAt(0).toUpperCase() + rows[i]["name"].slice(1) + "</td>";
+                table += "<td class='scoreboard-cells'>" + rows[i]["bet"].charAt(0).toUpperCase() + rows[i]["bet"].slice(1) + "</td>";
+                table += "<td class='scoreboard-cells'>" + rows[i]["bet-amount"] + " BB</td>";
+                table += "<td class='scoreboard-cells'>" + rows[i]["score"] + " BB</td>";
+                table += "<td class='scoreboard-cells'>" + rows[i]["past-bet"].charAt(0).toUpperCase() + rows[i]["past-bet"].slice(1) + "</td>";
+                table += "</tr>"
+            }
+            table += "</table><div id='footer'></div>";
+            document.getElementById("scoreboard").innerHTML = table;
+        }
+    };
+    xmlHttp.send( null );
+}
