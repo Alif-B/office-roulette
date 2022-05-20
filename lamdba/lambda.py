@@ -6,14 +6,19 @@ office_roulette = 'arn:aws:secretsmanager:us-east-1:692775622467:secret:office-r
 table = boto3.resource('dynamodb').Table("roulette-scores")
 
 
-def get_all_scores():
+def get_all_scores(method):
     """
     This function scans the whole AWS DynamoDB table and returns everything.
     """
     table_bettors = table.scan()['Items']
 
-    for bettor in table_bettors:
-        bettor["score"] = int(bettor["score"])
+    if method == "victim":
+        for bettor in table_bettors:
+            bettor["score"] = int(bettor["score"])
+    elif method == "scoreboard":
+        for bettor in table_bettors:
+            bettor["score"] = str(bettor["score"])
+            bettor["bet-amount"] = str(bettor["bet-amount"])
 
     return table_bettors
 
@@ -64,7 +69,7 @@ def pick_victim(victim):
     After the admin enters the victim, this function compares the victim with the bets and increments
     the scores by one and updates them in the database. Then it calls the clear_votes function
     """
-    data = get_all_scores()
+    data = get_all_scores("victim")
 
     for entry in data:
         if entry['bet'] == victim:
@@ -107,7 +112,7 @@ def lambda_handler(event, context):
 
     responseSent = {}
     responseSent['statusCode'] = 200
-    responseSent['headers'] = {}
+    responseSent['headers'] = {"Access-Control-Allow-Origin" : "*"}
     responseSent['headers']['Content-Type'] = "application/json"
 
     if action == "bets":
@@ -128,14 +133,15 @@ def lambda_handler(event, context):
 
         return responseSent
 
-#     elif action == "scoreboard":
-#         scoreboard = get_all_scores()
-#         responseSent['body'] = json.dumps(scoreboard)
-#         return responseSent
+    elif action == "scoreboard":
+        scoreboard = get_all_scores("scoreboard")
+        responseSent['body'] = json.dumps(scoreboard)
+        return responseSent
 
 # if __name__ == "__main__":
-#     action = "bets"
+#     action = "scoreboard"
 #     bettor = "alif"
 #     bet = "jaden+1"
 
-#     store_bet(bettor, bet.split("+"))
+#     scoreboard = get_all_scores("scoreboard")
+#     print(json.dumps(scoreboard))
