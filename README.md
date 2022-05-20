@@ -6,6 +6,7 @@ It is only designed for the people at my office so only they can play the game a
 
 ## Infrastructure
 Policies have been set according to the needs of service actions.
+* AWS Route53 hosted zone routes the traffic to S3 -->
 * Web application (frontend) deployed on `AWS S3 Static Hosting` -->
 * Which then sends requests to an `AWS API Gateway` -->
 * API Gateway forwars it to an `AWS Lambda funtions` -->
