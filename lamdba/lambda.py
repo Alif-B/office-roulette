@@ -126,7 +126,7 @@ def lambda_handler(event, context):
 
     elif action == "scores":
         if match_password(bet):
-            pick_victim(bettor)
+            pick_victim(bettor.lower())
             responseSent['body'] = "Scores Updated!"
         else:
             responseSent['body'] = "Wrong Password!"
