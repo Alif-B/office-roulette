@@ -1,5 +1,4 @@
 # Ignoring virtual environments
-venv
 .idea
 
 # Ignoring the lamda zip file
