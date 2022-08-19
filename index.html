@@ -17,6 +17,7 @@
                 <td class="bettor-table-td"><label id="label" for="selection">Bettor</label></td>
                 <td class="bettor-table-td">
                     <select id="selection" name="selection">
+                        <option value="Nothing"></option>
                         <option value="will">Will</option>
                         <option value="benson">Benson</option>
                         <option value="mbk">MBK</option>
@@ -24,6 +25,7 @@
                         <option value="jordan">Jordan</option>
                         <option value="alif">Alif</option>
                         <option value="jesse">Jesse</option>
+                        <option value="ross">Ross</option>
                     </select>
                 </td>
                 <td class="bettor-table-td"><label id="label2" for="amount"></label></td>
@@ -43,8 +45,8 @@
     <div id="main-table-div">
         <table id="the-main-table">
             <tr class="main-table-tr">
-                <td class="main-table-td" style="background-color: black; background-image: url()">
-                    <!-- <div id="farooq" class="bet" onclick="betted('farooq')" /> -->
+                <td class="main-table-td" style="background-color: black; background-image: url(./Images/ross.png)">
+                    <div id="ross" class="bet" onclick="betted('ross')" />
                 </td>
                 <td class="main-table-td" style="background-color: darkred; background-image: url(./Images/esg.png)">
                     <!-- <div id="no-bet" class="bet" onclick="betted('no-bet')" /> -->
@@ -78,14 +80,30 @@
         </table>
     </div>
 
+    <div id="score-button-div" onclick="scoreboard();">
+        <button id="submit-button" type="button">Score</button>
+    </div>
     <div id="submit-div" onclick="submitBet();">
         <button id="submit-button" type="button">Bet</button>
+    </div>
+    <div id="lock-div" onclick="lockBets();">
+        <button id="submit-button" type="button">Lock</button>
     </div>
     <div id="victim-div" onclick="selectVictim();">
         <button id="submit-button" type="button">Victim</button>
     </div>
-    <div id="score-button-div" onclick="scoreboard();">
-        <button id="submit-button" type="button">Score</button>
+    <div id="victim-select-div">
+        <select id="victim-selection" name="victim-selection">
+            <option value="Nothing"></option>
+            <option value="will">Will</option>
+            <option value="benson">Benson</option>
+            <option value="mbk">MBK</option>
+            <option value="clem">Clem</option>
+            <option value="jordan">Jordan</option>
+            <option value="alif">Alif</option>
+            <option value="jesse">Jesse</option>
+            <option value="ross">Ross</option>
+        </select>
     </div>
 
     <div id="scoreboard"></div>

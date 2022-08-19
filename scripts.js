@@ -31,20 +31,6 @@ function submitBet(){
     }
 }
 
-function selectVictim(){
-    let password = prompt("Password");
-    let victim = prompt("victim");
-
-    var fullApiPath = apiGateway+"action=scores&bettor="+victim+"&bet="+password;
-
-    // sending the request
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "PUT", fullApiPath);
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
-
-
 function scoreboard(){
     var fullApiPath = apiGateway+"action=scoreboard&bettor=na&bet=na";
     
@@ -73,4 +59,29 @@ function scoreboard(){
         }
     };
     xmlHttp.send( null );
+}
+
+function selectVictim(){
+    let password = prompt("Password");
+    let victim = document.getElementById("victim-selection").value;
+
+    var fullApiPath = apiGateway+"action=scores&bettor="+victim+"&bet="+password;
+
+    // sending the request
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "PUT", fullApiPath);
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+
+function lockBets(){
+    let password = prompt("Password");
+    fullApiPath = apiGateway+"action=lockBets&bettor=na&bet="+password;
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "PUT", fullApiPath);
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+
 }

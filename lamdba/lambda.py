@@ -4,6 +4,7 @@ import json
 # Globally used variables
 office_roulette = 'arn:aws:secretsmanager:us-east-1:692775622467:secret:office-roulette-mTGzMC'
 table = boto3.resource('dynamodb').Table("roulette-scores")
+extra_table = boto3.resource('dynamodb').Table("roulette-extras")
 
 
 def get_all_scores(method):
@@ -40,10 +41,10 @@ def validate_bet(bettor, bet):
 
 def match_password(entered):
     """ This function authenticates the admin before the victim can be picked """
-
-    client = boto3.client('secretsmanager')
-    response = client.get_secret_value(SecretId=office_roulette)
-    password = json.loads(response['SecretString'])['password']
+    password = extra_table.get_item(
+        Key={"variable": "password"},
+        AttributesToGet=['answer']
+    )["Item"]["answer"]
 
     if entered == password:
         print("Access Granted")
@@ -56,11 +57,36 @@ def match_password(entered):
 def store_bet(bettor, bet):
     """ This function stores the players' updated bets in AWS DynamoDB """
     print(bet)
-    response = table.update_item(
-        Key={'name': bettor},
-        AttributeUpdates={
-            "bet": {"Value": bet[0]},
-            "bet-amount": {"Value": int(bet[1])}}
+    print("here")
+
+    locked = extra_table.get_item(
+        Key={"variable": "locked"},
+        AttributesToGet=['answer']
+    )["Item"]["answer"]
+
+    # for extra in extra_table.scan()['Items']:
+    #     if extra['variable'] == "locked":
+    #         locked = extra["answer"]
+
+    print(locked)
+    if locked == "False":
+        response = table.update_item(
+            Key={'name': bettor},
+            AttributeUpdates={
+                "bet": {"Value": bet[0]},
+                "bet-amount": {"Value": int(bet[1])}}
+        )
+
+
+def lock_bets(locked):
+    """
+    This function changes the status of locked mode on dynamodb to true.
+    Making the webapp not accept anymore bets until a victim has been picked
+    """
+    response = extra_table.update_item(
+        Key={"variable": "locked"},
+        AttributeUpdates={ 
+            "answer": { "Value": locked } }
     )
 
 
@@ -83,6 +109,7 @@ def pick_victim(victim):
                 AttributeUpdates={"score": {"Value": entry['score'] - entry['bet-amount']}}
             )
 
+    lock_bets("False")
     clear_votes(data)
 
 
@@ -102,6 +129,7 @@ def clear_votes(data):
         )
 
 
+# def main(event):
 def lambda_handler(event, context):
     """
     This function handles which functions AWS Lambda will run based on the parameters of the request
@@ -138,10 +166,39 @@ def lambda_handler(event, context):
         responseSent['body'] = json.dumps(scoreboard)
         return responseSent
 
-# if __name__ == "__main__":
-#     action = "scoreboard"
-#     bettor = "alif"
-#     bet = "jaden+1"
+    elif action == "lockBets":
+        if match_password(bet):
+            scoreboard = lock_bets("True")
+            responseSent['body'] = "All bets have been locked, No more betting till next round"
+        else:
+            responseSent['body'] = "Wrong Password!"
+        
+        return responseSent
 
-#     scoreboard = get_all_scores("scoreboard")
-#     print(json.dumps(scoreboard))
+# if __name__ == "__main__":
+
+    # event = {
+    #     "queryStringParameters" : {
+    #         "action": "bets",
+    #         "bettor": "alif",
+    #         "bet" : "rossamount10"
+    #     }
+    # }
+
+    # event = {
+    #     "queryStringParameters" : {
+    #         "action": "lockBets",
+    #         "bettor": "alif",
+    #         "bet" : "peeOnFriends"
+    #     }
+    # }
+
+    # event = {
+    #     "queryStringParameters" : {
+    #         "action": "scores",
+    #         "bettor": "alif",
+    #         "bet" : "peeOnFriends"
+    #     }
+    # }
+
+    # main(event)
