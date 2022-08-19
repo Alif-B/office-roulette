@@ -92,18 +92,24 @@ select{
 #the-main-table, .main-table-tr, .main-table-td{
     border: 5px solid white;
 }
-#submit-div, #score-button-div, #victim-div{
+#score-button-div, #submit-div, #lock-div, #victim-div, #victim-select-div{
     position: absolute;
     text-align: center;
     width: 10vw;
-    left: 45vw;
+    left: 20vw;
     top: 90vh;
 }
-#score-button-div{
-    left: 25vw;
+#submit-div{
+    left: 33vw;
+}
+#lock-div{
+    left: 46vw;
 }
 #victim-div{
-    left: 65vw;
+    left: 59vw;
+}
+#victim-select-div{
+    left: 70vw;
 }
 #submit-button {
     background-color: black; /* Green */
