@@ -45,7 +45,7 @@ function scoreboard(){
             // Dynamically making the scoreboard table
             var table = "<table id='scoreboard-table'>";
             table += "<tr><th>Name</th><th>Current Bet</th><th>Bet Amount</th><th>Holdings</th><th>Past Bet</th></tr>"
-            for(i = 0; i < 7; i++) {
+            for(i = 0; i < rows.length; i++) {
                 table += "<tr class='scoreboard-rows'>";
                 table += "<td class='scoreboard-cells'>" + rows[i]["name"].charAt(0).toUpperCase() + rows[i]["name"].slice(1) + "</td>";
                 table += "<td class='scoreboard-cells'>" + rows[i]["bet"].charAt(0).toUpperCase() + rows[i]["bet"].slice(1) + "</td>";
